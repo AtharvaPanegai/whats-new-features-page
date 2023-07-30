@@ -6,9 +6,10 @@ import NewFeaturesTwo from './Components/NewFeaturesTwo';
 import WhatsNewUsingPhone from './Components/WhatsNewUsingPhone';
 import { Navigate, Route, Routes } from "react-router-dom";
 import SearchComponent from './Components/SearchComponent';
+import useToken from './hooks/useToken';
 
 function App() {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useToken("");
   return (
 
     <>
