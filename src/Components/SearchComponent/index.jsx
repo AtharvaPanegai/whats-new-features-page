@@ -6,20 +6,19 @@ import { useState } from "react";
 const SearchComponent = () => {
   const [searchValue, setSearchValue] = useState([]);
 
-  const debounce = (func)=>{
+  const debounce = (func) => {
     let timer;
-    return function(...args){
-        const context = this;
-        if(timer){
-            clearTimeout(timer);
-        }
-        timer = setTimeout(()=>{
-            timer = null;
-            func.apply(context,args);
-        },1000);
-
-    }
-  }
+    return function (...args) {
+      const context = this;
+      if (timer) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(() => {
+        timer = null;
+        func.apply(context, args);
+      }, 1000);
+    };
+  };
 
   const handleSearch = (event) => {
     const { value } = event.target;
@@ -27,11 +26,13 @@ const SearchComponent = () => {
       .then((res) => res.json())
       .then((json) => {
         setSearchValue(json.data.items);
+      })
+      .catch((err) => {
+        console.error(err);
       });
   };
 
-
-  const opimizedHandleSearch = useCallback(debounce(handleSearch),[]);
+  const opimizedHandleSearch = useCallback(debounce(handleSearch), []);
 
   return (
     <div>
@@ -59,12 +60,14 @@ const SearchComponent = () => {
             onChange={opimizedHandleSearch}
           />
         </div>
-        {searchValue?.map((item,i)=>{
-            return(
-                <div key = {i}>
-                    <span className="flex p-2 border-2 mt-1 mb-1 rounded-md">{item.name}</span>
-                </div>
-            )
+        {searchValue?.map((item, i) => {
+          return (
+            <div key={i}>
+              <span className='flex p-2 border-2 mt-1 mb-1 rounded-md'>
+                {item.name}
+              </span>
+            </div>
+          );
         })}
       </form>
     </div>
